@@ -100,12 +100,14 @@ export class VectorMath {
    */
   public static rotateX = (vec1: Vector, val: number) => {
     const theta = (val * Math.PI) / 180;
-    vec1.y = Number(
+    const y = Number(
       (vec1.y * Math.cos(theta) - vec1.z * Math.sin(theta)).toFixed(3)
     );
-    vec1.z = Number(
+    const z = Number(
       (vec1.y * Math.sin(theta) + vec1.z * Math.cos(theta)).toFixed(3)
     );
+    vec1.y = y;
+    vec1.z = z;
   };
   /**
    * Rotate Vector along the Y axis
@@ -114,12 +116,14 @@ export class VectorMath {
    */
   public static rotateY = (vec1: Vector, val: number) => {
     const theta = (val * Math.PI) / 180;
-    vec1.x = Number(
+    const x = Number(
       (vec1.x * Math.cos(theta) + vec1.z * Math.sin(theta)).toFixed(3)
     );
-    vec1.z = Number(
+    const z = Number(
       (-vec1.x * Math.sin(theta) + vec1.z * Math.cos(theta)).toFixed(3)
     );
+    vec1.x = x;
+    vec1.z = z;
   };
   /**
    * Rotate Vector along the Z axis
@@ -128,12 +132,14 @@ export class VectorMath {
    */
   public static rotateZ = (vec1: Vector, val: number) => {
     const theta = (val * Math.PI) / 180;
-    vec1.x = Number(
+    const x = Number(
       (vec1.x * Math.cos(theta) - vec1.y * Math.sin(theta)).toFixed(3)
     );
-    vec1.y = Number(
+    const y = Number(
       (vec1.x * Math.sin(theta) + vec1.y * Math.cos(theta)).toFixed(3)
     );
+    vec1.x = x;
+    vec1.y = y;
   };
   /**
    * Rotate Vector by given vector
