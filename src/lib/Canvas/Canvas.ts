@@ -14,29 +14,52 @@ export class Canvas {
     this.dom.width = this.size.x;
     this.dom.height = this.size.y;
   };
-  public clear = () => {};
+  public start = () => {
+    this.ctx.beginPath();
+  };
+  public end = () => {
+    this.ctx.closePath();
+  };
+  public clear = () => {
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
+  };
   public circle = (
     pos: Vector = new Vector(0, 0, 0),
     size: number = 10,
     fill: string | null = null,
     stroke: string | null = null
-  ) => {};
+  ) => {
+    this.ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2, false);
+    this.ctx.fillStyle = fill || "";
+    this.ctx.strokeStyle = stroke || "";
+    this.ctx.fill();
+  };
   public rect = (
     pos: Vector = new Vector(0, 0, 0),
     size: Vector = new Vector(0, 0, 0),
     fill: string | null = null,
     stroke: string | null = null
-  ) => {};
+  ) => {
+    this.ctx.rect(pos.x, pos.y, size.x, size.y);
+    this.ctx.fillStyle = fill || "";
+    this.ctx.strokeStyle = stroke || "";
+    this.ctx.fill();
+  };
   public line = (
     pos1: Vector = new Vector(0, 0, 0),
     pos2: Vector = new Vector(10, 10, 0),
     stroke: string | null = null
-  ) => {};
+  ) => {
+    this.ctx.moveTo(pos1.x, pos1.y);
+    this.ctx.lineTo(pos2.x, pos2.y);
+    this.ctx.strokeStyle = stroke || "";
+    this.ctx.stroke();
+  };
   public image = (
-    image: HTMLImageElement | SVGAElement | HTMLCanvasElement,
+    image: CanvasImageSource,
     pos: Vector = new Vector(0, 0, 0),
     size: Vector = new Vector(0, 0, 0)
-  ) => {};
-  public start = () => {};
-  public end = () => {};
+  ) => {
+    this.ctx.drawImage(image, pos.x, pos.y, size.x, size.y);
+  };
 }
