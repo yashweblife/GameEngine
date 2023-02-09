@@ -6,8 +6,6 @@
  * import {VectorMath} from "./Vector"
  * ```
  */
-class Vector {
-  public x: number;
-  public y: number;
-  public z: number;
+export class Vector {
+  constructor(public x: number, public y: number, public z: number) {}
 }
