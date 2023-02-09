@@ -3,7 +3,7 @@ import { Vector } from "./Vector";
  * ## VectorMath
  * Use this to do computation with vectors
  */
-class VectorMath {
+export class VectorMath {
   /**
    * Add two Vectors
    * vec1 gets modified
