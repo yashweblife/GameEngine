@@ -3,6 +3,7 @@ export class Canvas {
   public size: Vector = new Vector(500, 500, 0);
   public dom: HTMLCanvasElement = document.createElement("canvas");
   public ctx: CanvasRenderingContext2D = this.dom.getContext("2d")!;
+  public boundingBox:DOMRect = this.dom.getBoundingClientRect();
   constructor(parent: HTMLElement = document.body) {
     parent.append(this.dom);
     this.dom.width = this.size.x;
