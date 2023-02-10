@@ -151,4 +151,7 @@ export class VectorMath {
     this.rotateY(vec1, vec2.y);
     this.rotateZ(vec1, vec2.z);
   };
+  public static clone = (vec1: Vector) => {
+    return new Vector(vec1.x, vec1.y, vec1.z);
+  };
 }
