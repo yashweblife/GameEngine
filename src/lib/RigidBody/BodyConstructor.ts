@@ -86,22 +86,22 @@ export class BodyConstructor {
     let maxY = 0;
     let minY = this.canvas.size.y;
     this.points.forEach((p: Vector) => {
-      if (p.x > maxX) {
+      if (p.x >= maxX) {
         maxX = p.x;
       }
-      if (p.y > maxY) {
+      if (p.y >= maxY) {
         maxY = p.y;
       }
     });
     this.points.forEach((p: Vector) => {
-      if (p.x < minX) {
+      if (p.x <= minX) {
         minX = p.x;
       }
-      if (p.y < minY) {
+      if (p.y <= minY) {
         minY = p.y;
       }
     });
-    this.boundingBox = {topLeft : new Vector(minX, minY, 0),bottomRight : new Vector(maxX, maxY, 0)};
+    this.boundingBox = {topLeft : new Vector(minX, minY, 0),bottomRight : new Vector(maxX-minX, maxY-minY, 0)};
     console.log(this.boundingBox)
   };
   public disableBoundingBox = () => {
