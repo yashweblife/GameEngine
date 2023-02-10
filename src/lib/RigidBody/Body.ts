@@ -1,10 +1,8 @@
 import { Vector } from "../Vector";
 
-interface BoundingBox {
-  top: Vector;
-  left: Vector;
-  bottom: Vector;
-  right: Vector;
+export interface BoundingBox {
+  topLeft: Vector
+  bottomRight: Vector;
 }
 export class Body {
   public shape: Vector[] = [];
