@@ -31,9 +31,15 @@ export class Canvas {
     stroke: string | null = null
   ) => {
     this.ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2, false);
-    this.ctx.fillStyle = fill || "black";
-    this.ctx.strokeStyle = stroke || "black";
-    this.ctx.fill();
+    if(fill !== null){
+      this.ctx.fillStyle = fill;
+      this.ctx.fill();
+
+    }
+    if(stroke !== null){
+      this.ctx.strokeStyle = stroke;
+      this.ctx.stroke();
+    }
   };
   public rect = (
     pos: Vector = new Vector(0, 0, 0),
@@ -42,9 +48,15 @@ export class Canvas {
     stroke: string | null = null
   ) => {
     this.ctx.rect(pos.x, pos.y, size.x, size.y);
-    this.ctx.fillStyle = fill || "black";
-    this.ctx.strokeStyle = stroke || "black";
-    this.ctx.fill();
+    if(fill !== null){
+      this.ctx.fillStyle = fill;
+      this.ctx.fill();
+
+    }
+    if(stroke !== null){
+      this.ctx.strokeStyle = stroke;
+      this.ctx.stroke();
+    }
   };
   public line = (
     pos1: Vector = new Vector(0, 0, 0),
