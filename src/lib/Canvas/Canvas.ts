@@ -30,8 +30,8 @@ export class Canvas {
     stroke: string | null = null
   ) => {
     this.ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2, false);
-    this.ctx.fillStyle = fill || "";
-    this.ctx.strokeStyle = stroke || "";
+    this.ctx.fillStyle = fill || "black";
+    this.ctx.strokeStyle = stroke || "black";
     this.ctx.fill();
   };
   public rect = (
@@ -41,8 +41,8 @@ export class Canvas {
     stroke: string | null = null
   ) => {
     this.ctx.rect(pos.x, pos.y, size.x, size.y);
-    this.ctx.fillStyle = fill || "";
-    this.ctx.strokeStyle = stroke || "";
+    this.ctx.fillStyle = fill || "black";
+    this.ctx.strokeStyle = stroke || "black";
     this.ctx.fill();
   };
   public line = (
@@ -52,7 +52,7 @@ export class Canvas {
   ) => {
     this.ctx.moveTo(pos1.x, pos1.y);
     this.ctx.lineTo(pos2.x, pos2.y);
-    this.ctx.strokeStyle = stroke || "";
+    this.ctx.strokeStyle = stroke || "black";
     this.ctx.stroke();
   };
   public image = (
