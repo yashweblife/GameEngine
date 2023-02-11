@@ -14,6 +14,7 @@ export class BodyConstructor {
   public scale:number = 0;
   constructor(parent: HTMLElement = document.body) {
     this.canvas = new Canvas(parent);
+    this.canvas.translate(250,250);
     this.mouse = new Mouse(this.canvas.dom);
     this.canvas.setSize(500, 500);
     this.canvas.start();
@@ -200,33 +201,35 @@ export class BodyConstructor {
     }
     if(this.normalized !== null){
       for (let i = 0; i < this.normalized.length - 1; i++) {
-        let point1 = VectorMath.clone(this.normalized[i])
-        let point2 = VectorMath.clone(this.normalized[i+1])
-        VectorMath.scalar(point1,this.scale);
-        VectorMath.scalar(point2,this.scale);
-        VectorMath.add(point1, new Vector(250,250,0))
-        VectorMath.add(point2, new Vector(250,250,0))
+        const alter1 = VectorMath.clone(this.normalized[i]);
+        const alter2 = VectorMath.clone(this.normalized[i+1]);
+        VectorMath.scalar(alter1, this.scale);
+        VectorMath.scalar(alter2, this.scale);
+        VectorMath.add(alter1, new Vector(250,250,0));
+        VectorMath.add(alter2, new Vector(250,250,0));
         this.canvas.start();
-        this.canvas.line(point1, point2, "green");
+        this.canvas.line(alter1, alter2, "red");
         this.canvas.end();
       }
-      this.normalized.forEach((p: Vector) => {
-        let p1 = VectorMath.clone(p);
-        VectorMath.add(p1, new Vector(250,250,0))
-        VectorMath.scalar(p1,this.scale);
+      this.normalized.forEach((p:Vector)=>{
+        const alter = VectorMath.clone(p);
+        VectorMath.scalar(alter, this.scale);
+        VectorMath.add(alter, new Vector(250,250,0));
         this.canvas.start();
-        this.canvas.circle(p1, 2, "green", null);
+        this.canvas.circle(alter,3,"red");
         this.canvas.end();
-      });
+      })
     }
     requestAnimationFrame(this.update);
   };
   public enableNormalize = () => {
     this.normalized=[];
     this.points.forEach((p: Vector) => {
-      let p1 = VectorMath.clone(p);
-      VectorMath.normalize(p1)
-      this.normalized.push(p1);
+      let alter = VectorMath.clone(p);
+      VectorMath.sub(alter, this.centerOfMass);
+      VectorMath.normalize(alter);
+      this.normalized.push(alter);
+      console.log(alter);
     });
   };
   public setScale = (val: number) => {
