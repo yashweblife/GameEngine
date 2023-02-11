@@ -10,7 +10,9 @@ const isProduction = process.env.NODE_ENV == "production";
 const stylesHandler = MiniCssExtractPlugin.loader;
 
 const config = {
-  entry: "./src/index.ts",
+  entry: { 
+    index: "./src/index.ts", 
+    BodyConstructor: "./src/BodyConstructor.ts" },
   output: {
     path: path.resolve(__dirname, "dist"),
   },
@@ -20,7 +22,14 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "index.html",
       template: "index.html",
+      chunks: ["index"]
+    }),
+    new HtmlWebpackPlugin({
+      filename: "BodyConstructor.html",
+      template: "BodyConstructor.html",
+      chunks: ["BodyConstructor"]
     }),
 
     new MiniCssExtractPlugin(),
