@@ -15,7 +15,7 @@ document.querySelector("#showEB").addEventListener("click", () => {
 document.querySelector("#showNOR").addEventListener("click", () => {
   b.enableNormalize();
 });
-document.querySelector("#scaler").addEventListener("click", () => {
+document.querySelector("#scaler").addEventListener("input", () => {
   let val = document.querySelector("#scaler") as HTMLInputElement;
   b.setScale(Number(val.value));
 });
