@@ -235,4 +235,14 @@ export class BodyConstructor {
   public setScale = (val: number) => {
     this.scale = val;
   };
+  public generateBody = ()=>{
+    if(this.normalized !== null){
+      let output = "[\n";
+      this.normalized.forEach((p:Vector)=>{
+        output+=`new Vector(${p.x}, ${p.y}, ${p.z}),\n`
+      })
+      output+="]"
+      console.log(output);
+    }
+  }
 }
