@@ -154,4 +154,9 @@ export class VectorMath {
   public static clone = (vec1: Vector) => {
     return new Vector(vec1.x, vec1.y, vec1.z);
   };
+  public static setEqual = (vec1: Vector, vec2: Vector) => {
+    vec1.x = vec2.x;
+    vec1.y = vec2.y;
+    vec1.z = vec2.z;
+  };
 }
