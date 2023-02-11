@@ -9,6 +9,9 @@ export class Canvas {
     this.dom.width = this.size.x;
     this.dom.height = this.size.y;
   }
+  public translate = (x:number,y:number)=>{
+    this.ctx.translate(x,y);
+  }
   public setSize = (x: number, y: number) => {
     this.size.x = x;
     this.size.y = y;
