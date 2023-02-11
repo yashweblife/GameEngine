@@ -8,6 +8,10 @@ export class BodyConstructor {
   public mouse: Mouse;
   public points: Vector[] = [];
   public boundingBox: BoundingBox | null = null;
+  public centerOfMass: Vector | null = null;
+  public edgeBisector: Vector[] | null = null;
+  public normalized:Vector[] | null = null;
+  public scale:number = 0;
   constructor(parent: HTMLElement = document.body) {
     this.canvas = new Canvas(parent);
     this.mouse = new Mouse(this.canvas.dom);
@@ -59,27 +63,6 @@ export class BodyConstructor {
     this.points.push(pos);
     console.log(this.points);
   };
-  public update = () => {
-    this.canvas.clear();
-    this.drawGrid();
-
-    for (let i = 0; i < this.points.length - 1; i++) {
-      this.canvas.start();
-      this.canvas.line(this.points[i], this.points[i + 1], "red");
-      this.canvas.end();
-    }
-    this.points.forEach((p: Vector) => {
-      this.canvas.start();
-      this.canvas.circle(p, 5, "black", null);
-      this.canvas.end();
-    });
-    if (this.boundingBox !== null) {
-      this.canvas.start();
-      this.canvas.rect(this.boundingBox.topLeft, this.boundingBox.bottomRight, null, "red");
-      this.canvas.end();
-    }
-    requestAnimationFrame(this.update);
-  };
   public enableBoundingBox = () => {
     let maxX = 0;
     let minX = this.canvas.size.x;
@@ -101,10 +84,152 @@ export class BodyConstructor {
         minY = p.y;
       }
     });
-    this.boundingBox = {topLeft : new Vector(minX, minY, 0),bottomRight : new Vector(maxX-minX, maxY-minY, 0)};
-    console.log(this.boundingBox)
+    this.boundingBox = {
+      topLeft: new Vector(minX, minY, 0),
+      bottomRight: new Vector(maxX - minX, maxY - minY, 0),
+    };
   };
   public disableBoundingBox = () => {
     this.boundingBox = null;
+  };
+  public enableCenterOfMass = () => {
+    4;
+    let avgPoint = new Vector(0, 0, 0);
+    for (let i = 0; i < this.points.length - 1; i++) {
+      VectorMath.add(avgPoint, this.points[i]);
+    }
+    VectorMath.scalar(avgPoint, 1 / (this.points.length - 1));
+    this.centerOfMass = avgPoint;
+    console.log(this.centerOfMass);
+  };
+  public disableCenterOfMass = () => {
+    this.centerOfMass = null;
+  };
+  public enableEdgeBisector = () => {
+    let bisectors: Vector[] = [];
+
+    for (let i = 0; i < this.points.length - 1; i++) {
+      let base = VectorMath.clone(this.points[i]);
+      VectorMath.add(base, this.points[i + 1]);
+      VectorMath.scalar(base, 0.5);
+      bisectors.push(base);
+    }
+    this.edgeBisector = bisectors;
+    console.log(this.edgeBisector);
+  };
+  public disableEdgeBisector = () => {
+    this.edgeBisector = null;
+  };
+  public update = () => {
+    this.canvas.clear();
+    this.drawGrid();
+
+    for (let i = 0; i < this.points.length - 1; i++) {
+      this.canvas.start();
+      this.canvas.line(this.points[i], this.points[i + 1], "red");
+      this.canvas.end();
+    }
+    this.points.forEach((p: Vector) => {
+      this.canvas.start();
+      this.canvas.circle(p, 5, "black", null);
+      this.canvas.end();
+    });
+    if (this.boundingBox !== null) {
+      this.canvas.start();
+      this.canvas.rect(
+        this.boundingBox.topLeft,
+        this.boundingBox.bottomRight,
+        null,
+        "red"
+      );
+      this.canvas.end();
+    }
+    if (this.centerOfMass !== null) {
+      this.canvas.start();
+      this.canvas.circle(this.centerOfMass, 5, "red");
+      this.canvas.end();
+    }
+    if (this.edgeBisector !== null) {
+      let closestEdge = new Vector(0, 0, 0);
+      let furthestEdge = VectorMath.clone(
+        this.centerOfMass || new Vector(0, 0, 0)
+      );
+      this.edgeBisector.forEach((b: Vector) => {
+        if (this.centerOfMass) {
+          if (
+            VectorMath.getDistance(this.centerOfMass, b) <
+            VectorMath.getDistance(closestEdge, this.centerOfMass)
+          ) {
+            closestEdge = VectorMath.clone(b);
+          }
+          if (
+            VectorMath.getDistance(this.centerOfMass, b) >
+            VectorMath.getDistance(furthestEdge, this.centerOfMass)
+          ) {
+            furthestEdge = VectorMath.clone(b);
+          }
+        }
+        this.canvas.start();
+        this.canvas.circle(b, 5, "red");
+        this.canvas.end();
+      });
+      if (this.centerOfMass !== null) {
+        this.canvas.start();
+        this.canvas.line(this.centerOfMass, closestEdge);
+        this.canvas.end();
+        this.canvas.start();
+        this.canvas.circle(
+          this.centerOfMass,
+          VectorMath.getDistance(this.centerOfMass, closestEdge),
+          null,
+          "blue"
+        );
+        this.canvas.end();
+        this.canvas.start();
+        this.canvas.line(this.centerOfMass, furthestEdge);
+        this.canvas.end();
+        this.canvas.start();
+        this.canvas.circle(
+          this.centerOfMass,
+          VectorMath.getDistance(this.centerOfMass, furthestEdge),
+          null,
+          "green"
+        );
+        this.canvas.end();
+      }
+    }
+    if(this.normalized !== null){
+      for (let i = 0; i < this.normalized.length - 1; i++) {
+        let point1 = VectorMath.clone(this.normalized[i])
+        let point2 = VectorMath.clone(this.normalized[i+1])
+        VectorMath.scalar(point1,this.scale);
+        VectorMath.scalar(point2,this.scale);
+        VectorMath.add(point1, new Vector(250,250,0))
+        VectorMath.add(point2, new Vector(250,250,0))
+        this.canvas.start();
+        this.canvas.line(point1, point2, "green");
+        this.canvas.end();
+      }
+      this.normalized.forEach((p: Vector) => {
+        let p1 = VectorMath.clone(p);
+        VectorMath.add(p1, new Vector(250,250,0))
+        VectorMath.scalar(p1,this.scale);
+        this.canvas.start();
+        this.canvas.circle(p1, 2, "green", null);
+        this.canvas.end();
+      });
+    }
+    requestAnimationFrame(this.update);
+  };
+  public enableNormalize = () => {
+    this.normalized=[];
+    this.points.forEach((p: Vector) => {
+      let p1 = VectorMath.clone(p);
+      VectorMath.normalize(p1)
+      this.normalized.push(p1);
+    });
+  };
+  public setScale = (val: number) => {
+    this.scale = val;
   };
 }
