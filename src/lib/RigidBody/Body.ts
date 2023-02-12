@@ -22,20 +22,11 @@ export class Body {
     this.shape = shape;
     this.calculateEdges();
   }
-  public calculateMatrix = ()=>{
-    this.shape.forEach((p:Vector)=>{
-      let alter = VectorMath.clone(p);
-      VectorMath.scalar(alter, this.scale);
-      VectorMath.add(alter, this.pos);
-      VectorMath.rotate(alter,this.angle);
-      this.matrix.push(alter);
-    })
-  }
   public calculateEdges = () => {
-    for (let i = 0; i < this.matrix.length - 1; i++) {
+    for (let i = 0; i < this.shape.length - 1; i++) {
       this.edges.push({
-        start: this.matrix[i],
-        end: this.matrix[i + 1],
+        start: this.shape[i],
+        end: this.shape[i + 1],
       } as Edge);
     }
   };
@@ -62,7 +53,7 @@ export class Body {
     });
   };
   public show = (render: Canvas) => {
-    this.calculateRotatedMatrix(new Vector(0,0,90));
+    //this.calculateRotatedMatrix(new Vector(0,0,90));
     this.edges.forEach((e: Edge) => {
       let alter1 = VectorMath.clone(e.start);
       let alter2 = VectorMath.clone(e.end);
@@ -74,7 +65,7 @@ export class Body {
       render.line(alter1, alter2, "red");
       render.end();
     });
-    this.matrix.forEach((p: Vector) => {
+    this.shape.forEach((p: Vector) => { 
       let alter = VectorMath.clone(p);
       VectorMath.scalar(alter, this.scale);
       VectorMath.add(alter, this.pos);
