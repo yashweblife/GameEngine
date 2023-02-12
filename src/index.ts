@@ -20,4 +20,15 @@ const test: Vector[] = [
 ];
 
 const bod: Body = new Body(test);
-bod.show(canvas);
+const slider:HTMLInputElement = document.querySelector("#slider");
+slider.addEventListener("input",()=>{
+  //  bod.setRotation(new Vector(0,0, Number(slider.value)));
+})
+bod.setRotation(new Vector(0,0,45));
+function animate(){
+  canvas.clear();
+  bod.show(canvas);
+  requestAnimationFrame(animate);
+}
+
+animate();
