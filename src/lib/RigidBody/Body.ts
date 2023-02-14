@@ -77,7 +77,9 @@ export interface Edge {
 //     });
 //   };
 // }
-
+/**
+ * Convert to mass centric drawing
+ */
 export class Body {
   public vertices: Vector[] = []; //This is to keep a record of the original shape
   public matrix: Vector[] = []; //This is to perform any mutations onto
