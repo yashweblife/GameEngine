@@ -228,8 +228,8 @@ export class BodyConstructor {
       this.points.forEach((p: Vector) => {
         let alter = VectorMath.clone(p);
         VectorMath.normalize(alter);
-        VectorMath.sub(alter, this.centerOfMass);
-        this.normalized.push(alter);
+        VectorMath.sub(alter, this.centerOfMass!);
+        this.normalized!.push(alter);
         console.log(alter);
       });
     }
