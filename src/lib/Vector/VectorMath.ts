@@ -11,7 +11,7 @@ export class VectorMath {
    * @param vec2 Vector
    */
   public static getMagnitude = (vec1: Vector): number => {
-    return Math.sqrt(vec1.x ** 2 + vec1.y ** 2 + vec1.z ** 2);
+    return Math.hypot(vec1.x, vec1.y, vec1.z);
   };
   public static add = (vec1: Vector, vec2: Vector) => {
     vec1.x += vec2.x;
@@ -36,9 +36,7 @@ export class VectorMath {
    * @returns number
    */
   public static getDistance = (vec1: Vector, vec2: Vector): number => {
-    return Math.sqrt(
-      (vec1.x - vec2.x) ** 2 + (vec1.y - vec2.y) ** 2 + (vec1.z - vec2.z) ** 2
-    );
+    return Math.hypot(vec1.x - vec2.x, vec1.y - vec2.y, vec1.z - vec2.z);
   };
   /**
    * Dot two vectors
@@ -77,7 +75,8 @@ export class VectorMath {
    * @param vec1 Vector
    */
   public static normalize = (vec1: Vector) => {
-    const mag = Math.sqrt(vec1.x ** 2 + vec1.y ** 2 + vec1.z ** 2);
+    // const mag = Math.sqrt(vec1.x ** 2 + vec1.y ** 2 + vec1.z ** 2);
+    const mag = Math.hypot(vec1.x, vec1.y, vec1.z);
     vec1.x /= mag;
     vec1.y /= mag;
     vec1.z /= mag;
@@ -88,7 +87,7 @@ export class VectorMath {
    * @param val number
    */
   public static setMag = (vec1: Vector, val: number) => {
-    const final = val / Math.sqrt(vec1.x ** 2 + vec1.y ** 2 + vec1.z ** 2);
+    const final = val / Math.hypot(vec1.x, vec1.y, vec1.z);
     vec1.x *= final;
     vec1.y *= final;
     vec1.z *= final;
@@ -158,5 +157,10 @@ export class VectorMath {
     vec1.x = vec2.x;
     vec1.y = vec2.y;
     vec1.z = vec2.z;
+  };
+  public static toFixed = (vec1: Vector, val: number) => {
+    vec1.x = Number(vec1.x.toFixed(val));
+    vec1.y = Number(vec1.y.toFixed(val));
+    vec1.z = Number(vec1.z.toFixed(val));
   };
 }

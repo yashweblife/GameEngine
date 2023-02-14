@@ -10,11 +10,11 @@ export class BodyConstructor {
   public boundingBox: BoundingBox | null = null;
   public centerOfMass: Vector | null = null;
   public edgeBisector: Vector[] | null = null;
-  public normalized:Vector[] | null = null;
-  public scale:number = 0;
+  public normalized: Vector[] | null = null;
+  public scale: number = 100;
   constructor(parent: HTMLElement = document.body) {
     this.canvas = new Canvas(parent);
-    this.canvas.translate(250,250);
+    this.canvas.translate(250, 250);
     this.mouse = new Mouse(this.canvas.dom);
     this.canvas.setSize(500, 500);
     this.canvas.start();
@@ -199,50 +199,54 @@ export class BodyConstructor {
         this.canvas.end();
       }
     }
-    if(this.normalized !== null){
+    if (this.normalized !== null) {
       for (let i = 0; i < this.normalized.length - 1; i++) {
         const alter1 = VectorMath.clone(this.normalized[i]);
-        const alter2 = VectorMath.clone(this.normalized[i+1]);
+        const alter2 = VectorMath.clone(this.normalized[i + 1]);
         VectorMath.scalar(alter1, this.scale);
         VectorMath.scalar(alter2, this.scale);
-        VectorMath.add(alter1, new Vector(250,250,0));
-        VectorMath.add(alter2, new Vector(250,250,0));
+        VectorMath.add(alter1, this.centerOfMass || new Vector(250, 250, 0));
+        VectorMath.add(alter2, this.centerOfMass || new Vector(250, 250, 0));
         this.canvas.start();
         this.canvas.line(alter1, alter2, "red");
         this.canvas.end();
       }
-      this.normalized.forEach((p:Vector)=>{
+      this.normalized.forEach((p: Vector) => {
         const alter = VectorMath.clone(p);
         VectorMath.scalar(alter, this.scale);
-        VectorMath.add(alter, new Vector(250,250,0));
+        VectorMath.add(alter, this.centerOfMass || new Vector(250, 250, 0));
         this.canvas.start();
-        this.canvas.circle(alter,3,"red");
+        this.canvas.circle(alter, 3, "red");
         this.canvas.end();
-      })
+      });
     }
     requestAnimationFrame(this.update);
   };
   public enableNormalize = () => {
-    this.normalized=[];
-    this.points.forEach((p: Vector) => {
-      let alter = VectorMath.clone(p);
-      VectorMath.sub(alter, this.centerOfMass);
-      VectorMath.normalize(alter);
-      this.normalized.push(alter);
-      console.log(alter);
-    });
+    if (this.centerOfMass !== null) {
+      this.normalized = [];
+      this.points.forEach((p: Vector) => {
+        let alter = VectorMath.clone(p);
+        VectorMath.normalize(alter);
+        VectorMath.sub(alter, this.centerOfMass!);
+        this.normalized!.push(alter);
+        console.log(alter);
+      });
+    }
   };
   public setScale = (val: number) => {
     this.scale = val;
   };
-  public generateBody = ()=>{
-    if(this.normalized !== null){
+  public generateBody = () => {
+    if (this.normalized !== null) {
       let output = "[\n";
-      this.normalized.forEach((p:Vector)=>{
-        output+=`new Vector(${p.x}, ${p.y}, ${p.z}),\n`
-      })
-      output+="]"
+      this.normalized.forEach((p: Vector) => {
+        output += `new Vector(${p.x.toFixed(2)}, ${p.y.toFixed(
+          2
+        )}, ${p.z.toFixed(2)}),\n`;
+      });
+      output += "]";
       console.log(output);
     }
-  }
+  };
 }

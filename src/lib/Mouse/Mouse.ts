@@ -13,7 +13,7 @@ export class Mouse {
       if (this.tooltip !== null) {
         this.tooltip.style.top = `${this.pos.y-50}px`;
         this.tooltip.style.left = `${this.pos.x-20}px`;
-        this.tooltip.innerHTML = `X:${this.pos.x}px | Y:${this.pos.y}px`;
+        this.tooltip.innerHTML = `X:${this.pos.x.toFixed(2)}px | Y:${this.pos.y.toFixed(2)}px`;
       }
     });
     this.parent.addEventListener("mousedown", (e: MouseEvent) => {
@@ -41,7 +41,7 @@ export class Mouse {
     this.tooltip.style.color="white";
     this.tooltip.style.padding="0.5em";
     this.tooltip.style.borderRadius="1em";
-    this.parent.parentElement.append(this.tooltip)
+    this.parent.parentElement!.append(this.tooltip)
   };
   public disableToolTip = () => {
     this.tooltip = null;
