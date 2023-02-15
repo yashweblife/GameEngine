@@ -101,7 +101,10 @@ export function lerp(vec: Vec2d, a: Vec2d, b: Vec2d, t: number) {
   return vec;
 }
 export function random(vec: Vec2d, scale: number = 1) {
-    
+  let rand = (Math.random() - 0.5) * 2 * Math.PI;
+  vec.x = Math.cos(rand) * scale;
+  vec.x = Math.sin(rand) * scale;
+  return(vec);
 }
 export function transformMat2d(
   vec: Vec2d,
