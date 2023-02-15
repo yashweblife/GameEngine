@@ -103,7 +103,7 @@ export function lerp(vec: Vec2d, a: Vec2d, b: Vec2d, t: number) {
 export function random(vec: Vec2d, scale: number = 1) {
   let rand = (Math.random() - 0.5) * 2 * Math.PI;
   vec.x = Math.cos(rand) * scale;
-  vec.x = Math.sin(rand) * scale;
+  vec.y = Math.sin(rand) * scale;
   return(vec);
 }
 export function transformMat2d(
@@ -112,7 +112,7 @@ export function transformMat2d(
   mat1: [number, number, number, number]
 ) {
   vec.x = mat1[0] * vec1.x + mat1[2] * vec1.y;
-  vec.x = mat1[1] * vec1.x + mat1[3] * vec1.y;
+  vec.y = mat1[1] * vec1.x + mat1[3] * vec1.y;
   return vec;
 }
 export function rotate(vec: Vec2d, target: Vec2d, orgin: Vec2d, angle: number) {
